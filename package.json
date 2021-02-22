@@ -1,0 +1,11 @@
+{
+  "name": "habit-tracker",
+  "version": "1.0.0",
+  "description": "Track your habits using the Seinfeld Method",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sandesh Chapagain",
+  "license": "ISC"
+}
