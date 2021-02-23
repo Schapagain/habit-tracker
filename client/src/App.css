@@ -34,3 +34,7 @@
 .unmarked {
   background-color: rgb(190, 93, 76);
 }
+
+.inactive {
+  background-color: gray;
+}
