@@ -21,13 +21,23 @@ class HabitBlock {
 
   static #NUM_DAYS_IN_BLOCK = 30;
 
-  constructor() {
-    this._startDate = DateTime.now().startOf('day');
+  constructor(name,description) {
+    this._name = name;
+    this._description = description;
+    this._startDate = DateTime.now().minus({days:5}).startOf('day');
     // -1 since we include the startDate
-    this._endDate = this._startDate.plus({days:HabitBlock.#NUM_DAYS_IN_BLOCK-1}); 
+    this._endDate = this._startDate.plus({days:HabitBlock.#NUM_DAYS_IN_BLOCK}); 
     this._activeDays = this._makeActiveDays();
     this._calendarDays = this._makeCalendarDays();
     this._doneDays = 0;
+  }
+
+  get description() {
+    return this._description;
+  }
+
+  get name() {
+    return this._name;
   }
 
   get startDate() {
@@ -50,20 +60,14 @@ class HabitBlock {
     return this._calendarDays;
   }
   _getDayNumber(date) {
-    console.log('diff between:',this._startDate.toString(),date.toString());
     const dur = Math.round(date.diff(this._startDate).as('days'));
-    console.log('is:',dur);
     return dur;
   }
 
   toggleDay(date) {
-    console.log('toggling',date.day);
     const arrayIndex = this._getDayNumber(date);
-    console.log('daynumberis:',arrayIndex);
     let prevState = this._activeDays[arrayIndex].done;
-    console.log('prevstate:',prevState);
     this._activeDays[arrayIndex].done = !prevState;
-    console.log('newstate:',this._activeDays[arrayIndex].done);
     prevState ? this._doneDays-- : this._doneDays++;
     return this;
   }
@@ -71,7 +75,7 @@ class HabitBlock {
   _makeActiveDays() {
     const interval = Interval.fromDateTimes(this._startDate,this._endDate);
     const activeDays = [];
-    this._numActiveFirstMonth = HabitBlock.#NUM_DAYS_IN_BLOCK - 1;
+    this._numActiveFirstMonth = HabitBlock.#NUM_DAYS_IN_BLOCK;
     for (let date of dateGenerator(interval)) {
       const day = new Day(date,false);
       activeDays.push(day);
