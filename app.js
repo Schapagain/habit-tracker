@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const passport = require("passport");
 const morgan = require('morgan');
 
 // middlewares for CORS and json parsing
@@ -9,11 +8,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("client/build"));
-app.use(passport.initialize()); 
 app.use(morgan('tiny'));
 
 // Serve API routes
 app.use('/auth',require('./routes/auth'));
+app.use('/users',require('./routes/users'));
 
 // // Serve static content
 // app.use(express.static('public'));
