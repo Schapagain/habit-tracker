@@ -1,9 +1,10 @@
 import React,{useState} from 'react';
 import CalendarGrid from './CalendarGrid';
-import HabitBlock from '../classes/HabitBlock';
+import HabitBlock from '../utils/HabitBlock';
 import { Container, Row } from 'reactstrap';
 import HabitHistory from './HabitHistory';
 import HabitHome from './HabitHome';
+import GoogleLogin from './GoogleLogin';
 
 
 const italianHabit = new HabitBlock("Italian","10 minutes a day");
@@ -14,7 +15,10 @@ const AppHome = (props) => {
   const [block,setBlock] = useState(exerciseHabit);
 
   return (
+    <>
+    <GoogleLogin/>
     <HabitHome habit={block} toggleDone={setBlock} />
+    </>
   );
 }
 
