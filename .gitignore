@@ -33,5 +33,5 @@ client/yarn-error.log*
 #misc
 
 .eslintcache
-
+.env
 
