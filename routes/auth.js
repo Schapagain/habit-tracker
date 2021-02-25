@@ -1,16 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('../config/passport');
+const { urlGoogle } = require('../controllers/handleGoogleLogin');
 
-/* GET Google Authentication API. */
-router.get("/google",passport.authenticate("google",{scope: ["profile","email"]}));
-router.get(
-    "/google/callback",
-    passport.authenticate("google", { failureRedirect: "/", session: false }),
-    (req,res) => {
-        console.log(req.user);
-        res.status(200).json(req.user);
-    }
-);
+router.get("/google",(req,res) => {
+    res.status(200).json({
+        url : urlGoogle()
+    });
+})
 
 module.exports = router;
