@@ -1,0 +1,1 @@
+export const ADD_HABIT = 'add_habit';
