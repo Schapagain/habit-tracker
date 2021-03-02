@@ -21,10 +21,10 @@ class HabitBlock {
 
   static #NUM_DAYS_IN_BLOCK = 30;
 
-  constructor(name,description) {
+  constructor(name,description,startDate) {
     this._name = name;
     this._description = description;
-    this._startDate = DateTime.now().minus({days:5}).startOf('day');
+    this._startDate =  (startDate && DateTime.fromISO(startDate).startOf("day")) || DateTime.now().minus({days:5}).startOf('day');
     // -1 since we include the startDate
     this._endDate = this._startDate.plus({days:HabitBlock.#NUM_DAYS_IN_BLOCK}); 
     this._activeDays = this._makeActiveDays();
