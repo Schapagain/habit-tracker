@@ -15,10 +15,11 @@ const Day = ({day,block,toggleDone,isDayName}) => {
     dayName = day;
   }
 
-  const mainClass = classNames('w-11 h-11 flex justify-center flex-col m-auto cursor-pointer',{
-    'border border-black border-dashed' : !isDayName && active,
+  const mainClass = classNames('w-7 h-7 flex justify-center flex-col m-auto',{
+    'cursor-pointer' : !isDayName && active,
     'cursor-not-allowed' : !isDayName && inFuture,
     'hover:bg-gray-700' : !isDayName && !inFuture,
+    'text-gray-600' : !isDayName && !active,
   })
 
   return (
@@ -35,7 +36,7 @@ const Day = ({day,block,toggleDone,isDayName}) => {
     className={mainClass}
       >
       {dayNum || dayName}
-      {dayNum && done && active && <div className="w-11 h-11 m-auto absolute text-4xl">X</div>}
+      {dayNum && done && active && <div className="w-7 h-7 m-auto absolute text-2xl">X</div>}
     </div>
   );
 };

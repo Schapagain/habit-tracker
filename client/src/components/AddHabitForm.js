@@ -1,13 +1,15 @@
-import React,{useState} from 'react';
+import React,{useState,useContext} from 'react';
 import { DateTime } from 'luxon';
 import classNames from 'classnames';
+import { GlobalContext } from '../context/GlobalState';
+import HabitBlock from '../utils/HabitBlock';
 
-const AddHabitForm = ({addHabit}) => {
+const AddHabitForm = ({toggleForm}) => {
+  const { addHabit } = useContext(GlobalContext);
 
   const [name,setName] = useState("");
   const [description,setDescription] = useState("");
   const [startDate] = useState(DateTime.now());
-
   const [nameError,setNameError] = useState(false);
 
   const resetStates = () => {
@@ -23,12 +25,9 @@ const AddHabitForm = ({addHabit}) => {
         return;
     }else{
         resetStates();
-        addHabit({
-            name,
-            description,
-            startDate
-        });
-        // toggleForm();
+        const newHabit = new HabitBlock(name,description,startDate);
+        addHabit(newHabit);
+        toggleForm();
     }
 
   }

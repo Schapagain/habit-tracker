@@ -1,18 +1,26 @@
-// import React,{useState} from 'react';
+
 import classNames from 'classnames';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AddHabitForm from './AddHabitForm';
+import { useHistory } from 'react-router-dom';
+import { GlobalContext } from '../context/GlobalState';
+import { useContext, useState} from 'react';
 
-const habitClass = 
-'hover:bg-gray-700 hover:text-white cursor-pointer w-full flex flex-col rounded-lg p-2 bg-gray-300 my-2';
+const mainClass = 
+'hover:bg-gray-700 hover:text-white cursor-pointer w-1/2 mx-auto flex flex-col rounded-lg p-2 bg-gray-300 my-2';
 
-const Habit = ({index, currentHabit, habit, displayHabit}) => {
+const Habit = ({habit}) => {
 
-    const mainClass = classNames({
-        'text-white bg-gray-700':currentHabit === index
-    },habitClass)
+    const history = useHistory();
+
+    const routeToHabit = () => {
+        history.push({
+            pathname:'/habit',
+            state: {habit}
+        });
+    }
+
     return (
-        <div onClick={()=>displayHabit(index)} className={mainClass}>
+        <div onClick={()=>{routeToHabit();}} className={mainClass}>
             <h1>{habit.name}</h1>
             <h2 className="mb-2">{habit.description}</h2>
             <p>Current block:</p>
@@ -21,38 +29,35 @@ const Habit = ({index, currentHabit, habit, displayHabit}) => {
     )
 }
 
-// const NewHabit = ({toggleForm}) => {
+const NewHabitButton = ({toggleForm}) => {
 
-//     return (
-//         <div onClick={()=>toggleForm()} className={habitClass}>
-//             <p><FontAwesomeIcon icon={['fas','calendar-plus']} className="mr-2"/>New habit</p>
-//         </div>
-//     )
-
-// }
-
-const HabitList = ({habits, addNewHabit, currentHabit, displayHabit}) => {
-
-    // const [showNewHabitForm,setShow] = useState(false);
-
-    // const toggleForm = () => {
-    //     setShow(!showNewHabitForm);
-    // }
-
-  return (
-        <div className="flex flex-wrap md:w-1/2 w-2/3 md:absolute mx-auto top-0 right-0 p-4 md:flex-col">
-            {habits.map((habit,index) => 
-            <Habit 
-            currentHabit={currentHabit} 
-            index={index} 
-            key={habit.name} 
-            displayHabit={displayHabit} 
-            habit={habit}/>)}
-            {/* <NewHabit toggleForm={toggleForm}/> */}
-            {/* {showNewHabitForm && <AddHabitForm toggleForm={toggleForm} addHabit={addNewHabit}/>} */}
-            <AddHabitForm addHabit={addNewHabit} />
+    return (
+        <div onClick={()=>toggleForm()} className={mainClass}>
+            <p>New habit</p>
         </div>
-  )
+    )
+
+}
+
+const HabitList = () => {
+
+    const [showNewHabitForm,setShow] = useState(false);
+
+    const toggleForm = () => {
+        setShow(!showNewHabitForm);
+    }
+
+    const { habits } = useContext(GlobalContext);
+    return (
+        <div className="flex flex-wrap md:w-1/2 w-2/3 mx-auto p-4 md:flex-col">
+            {habits.map(habit => 
+            <Habit 
+            key={habit.name} 
+            habit={habit}/>)}
+            <NewHabitButton toggleForm={toggleForm}/> 
+            {showNewHabitForm && <AddHabitForm toggleForm={toggleForm} />}
+        </div>
+    )
 }
 
 export default HabitList;
