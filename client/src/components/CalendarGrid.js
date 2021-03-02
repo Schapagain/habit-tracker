@@ -1,16 +1,15 @@
 
 import React from 'react';
-import { Col } from 'reactstrap';
 import Calendar from './Calendar';
 
-function CalendarGrid({block,toggleDone}) {
-  const calendars = block.calendarDays;
-
-  return (
-      <Col xs="12" sm="12" md="8" lg="6" xl="5">
-          {calendars && calendars.map((calendar,i) => <Calendar key={i} block={block} toggleDone={toggleDone} days={calendar}/>)}
-      </Col>
-  );
+function CalendarGrid({block}) {
+  const calendars = block && block.calendarDays;
+  const mainClass = 'md:absolute w-2/3 md:w-1/2 mx-auto top-5 left-0 p-2 flex flex-col bg-purple-400 rounded-lg'
+    return (
+      <div className={mainClass}>
+    {calendars && calendars.map((calendar,i) => <Calendar key={i} block={block} days={calendar}/>)}
+    </div>  
+    );
 }
 
 
