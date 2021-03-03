@@ -7,7 +7,7 @@ function App() {
   return (
     <GlobalProvider>
       <Router>
-        <div className="min-w-min-lg min-h-screen mx-auto max-w-screen-xl flex flex-col text-center justify-between bg-indigo-900">
+        <div className="min-w-min-lg min-h-screen mx-auto max-w-screen-xl flex flex-col text-center">
           <AppHome/>
         </div>  
       </Router>  
