@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import Button from './Button';
 import BackButton from './BackButton';
 import Panel from './Panel';
+import { useHistory } from 'react-router-dom';
 
 export const Signup = () => {
 
@@ -46,6 +47,8 @@ const validateUsername = username => {
 }
 
 const SignupForm = () => {
+
+    const history = useHistory();
 
     const [name,setName] = useState("");
     const [username,setUsername] = useState("");
@@ -128,6 +131,13 @@ const SignupForm = () => {
               text="SignUp"
               onClick={handleSubmit}
               />
+              <a 
+              className = "underline text-black"
+              href="!#" 
+              onClick={(e)=>{e.preventDefault();history.push("/login")}}
+              >
+                  Already have an account?
+                </a>
           </div>
       </form>
     );
