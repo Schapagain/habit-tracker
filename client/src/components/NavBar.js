@@ -3,11 +3,12 @@ import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 const Brand = () => {
+    const history = useHistory();
     return (
         <a 
         className = "text-calypso my-auto font-medium text-3xl"
         href="!#" 
-        onClick={(e)=>{e.preventDefault();}}
+        onClick={(e)=>{e.preventDefault();history.push("/")}}
         >
             BlockByBlock
         </a>
@@ -66,7 +67,7 @@ const NavLinks = () => {
 const NavBar = () => {
 
     return (
-        <div className = "flex p-3 m-3 justify-between">
+        <div className = "w-full max-w-screen-xl fixed top-0 flex p-3 m-3 justify-between">
             <Brand />
             <NavLinks />
         </div>
