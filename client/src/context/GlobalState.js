@@ -9,7 +9,7 @@ const initialHabits = [italianHabit,exerciseHabit]
 
 const initialState = {
     habits : initialHabits,
-    isAuthenticated: true,
+    isAuthenticated: false,
     user : {
         name: "Sandesh",
         id: "123"

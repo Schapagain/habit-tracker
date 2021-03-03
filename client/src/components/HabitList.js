@@ -1,5 +1,3 @@
-
-import classNames from 'classnames';
 import AddHabitForm from './AddHabitForm';
 import { useHistory } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalState';
