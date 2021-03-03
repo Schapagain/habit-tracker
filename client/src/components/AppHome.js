@@ -10,7 +10,7 @@ import About from './About';
 import Features from './Features';
 
 const AppHome = (props) => {
-  const mainClass = "flex justify-between flex-col min-h-screen w-full"
+  const mainClass = "flex mx-auto max-w-screen-xl justify-between flex-col min-h-screen bg-spring-rain w-full"
   const { user } = useContext(GlobalContext);
   return (
     <div className={mainClass}>
