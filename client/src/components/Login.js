@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import Button from './Button';
 import BackButton from './BackButton';
 import LoginQuote from './LoginQuote';
 import Panel from './Panel';
+import { GlobalContext } from '../context/GlobalState';
 
 export const Login = () => {
 
@@ -33,8 +34,8 @@ const LoginText = () => {
     );
 }
 
-const authenticate = async () => {
-    return false;
+const authenticate = async ({username,password}) => {
+    return username.length > 2 && username === password;
 }
 
 const LoginForm = () => {
@@ -45,6 +46,8 @@ const LoginForm = () => {
 
     const history = useHistory();
 
+    const { loginUser } = useContext(GlobalContext);
+
     const handleSubmit = async () => {
         resetErrors();
         const authenticated = await authenticate({username,password});
@@ -52,8 +55,8 @@ const LoginForm = () => {
         if (!authenticated) {
             setError("Invalid credentials!");
         } else {
+            loginUser({name:"Sandesh",id:"123"});
             history.push("/home");
-            resetErrors();
         }
         
     }
@@ -71,7 +74,7 @@ const LoginForm = () => {
     })
   
     return (
-      <form className="text-center mx-4 p-4 text-gray-700 my-auto text-left rounded-lg ">
+      <form onSubmit={(e)=>{e.preventDefault();handleSubmit()}} className="text-center mx-4 p-4 text-gray-700 my-auto text-left rounded-lg ">
           <div className="flex p-2 flex-col">
               <div className="w-full m-2 px-2">
               <input 
@@ -94,12 +97,13 @@ const LoginForm = () => {
               />
               </div>
               {error.length > 0 && <p className="text-white">{error}</p>}
+              {/* I needed this to make the form submit on enter */}<button type="submit"/>
               <Button 
               className={`items-center py-2 px-4
               text-white bg-kabul rounded-xl 
               hover:bg-kabul`} 
               text="Login"
-              onClick={handleSubmit}
+              onClick={()=>handleSubmit()}
               />
           </div>
       </form>
