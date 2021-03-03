@@ -1,9 +1,12 @@
 import BackButton from "./BackButton";
+import NavBar from "./NavBar";
 import Panel from "./Panel";
 
 const About = () => {
     return (
-        <div className="flex h-full w-full justify-center m-auto">
+        <div className="min-h-screen justify-center flex flex-col">
+        <NavBar />
+        <div className="flex h-screen w-full justify-center m-auto">
             <BackButton
             className="my-auto mr-3 hover:-translate-x-1" 
             />
@@ -12,6 +15,7 @@ const About = () => {
             content={<AboutText/>} 
             />
         </div>
+    </div>
     )
 }
 

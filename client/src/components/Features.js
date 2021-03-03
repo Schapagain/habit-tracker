@@ -1,16 +1,20 @@
 import BackButton from "./BackButton";
+import NavBar from "./NavBar";
 import Panel from "./Panel";
 
 const Features = () => {
     return (
-        <div className="flex h-full w-full justify-center m-auto">
-            <BackButton
-            className="my-auto mr-3 hover:-translate-x-1" 
-            />
-            <Panel 
-            className = "w-full"
-            content={<FeaturesText/>} 
-            />
+        <div className="min-h-screen justify-center flex flex-col">
+            <NavBar />
+            <div className="flex h-screen w-full justify-center m-auto">
+                <BackButton
+                className="my-auto mr-3 hover:-translate-x-1" 
+                />
+                <Panel 
+                className = "w-full"
+                content={<FeaturesText/>} 
+                />
+            </div>
         </div>
     )
 }
