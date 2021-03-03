@@ -1,7 +1,7 @@
 import React, {createContext, useReducer} from 'react';
 import HabitBlock from '../utils/HabitBlock';
 import AppReducer from './AppReducer';
-import { ADD_HABIT, LOGOUT } from './types';
+import { ADD_HABIT, LOGIN, LOGOUT } from './types';
 
 const italianHabit = new HabitBlock("Italian","10 minutes a day");
 const exerciseHabit = new HabitBlock("Exercise","half and hour a day");
@@ -9,11 +9,8 @@ const initialHabits = [italianHabit,exerciseHabit]
 
 const initialState = {
     habits : initialHabits,
-    isAuthenticated: false,
-    user : {
-        name: "Sandesh",
-        id: "123"
-    }
+    isAuthenticated: localStorage.getItem('token') !== null,
+    user : localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
 }
 
 export const GlobalContext = createContext(initialState);
@@ -34,6 +31,13 @@ export const GlobalProvider = ({ children }) => {
         })
     };
 
+    function loginUser(user) {
+        dispatch({
+            type: LOGIN,
+            payload: user,
+        })
+    }
+
     return (
         <GlobalContext.Provider 
         value={{
@@ -42,6 +46,7 @@ export const GlobalProvider = ({ children }) => {
             user: state.user,
             addHabit,
             logoutUser,
+            loginUser,
         }}
         >
             {children}

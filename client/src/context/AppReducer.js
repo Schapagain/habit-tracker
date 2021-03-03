@@ -1,9 +1,20 @@
 
-import { ADD_HABIT, LOGOUT } from './types';
+import { ADD_HABIT, LOGOUT, LOGIN } from './types';
 const AppReducer = (state,action) => {
     switch(action.type) {
     
+        case LOGIN:
+            console.log('logging in user:',action.payload);
+            localStorage.setItem('token','123');
+            localStorage.setItem('user',JSON.stringify(action.payload))
+            return {
+                ...state,
+                isAuthenticated: true,
+                user: action.payload,
+            }
+
         case LOGOUT:
+            localStorage.removeItem('token');
             return {
                 ...state,
                 isAuthenticated: false,
