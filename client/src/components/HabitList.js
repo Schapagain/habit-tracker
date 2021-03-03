@@ -1,10 +1,11 @@
-import AddHabitForm from './AddHabitForm';
 import { useHistory } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalState';
-import { useContext, useState} from 'react';
+import { useContext } from 'react';
+import Button from './Button';
+import { FaCalendarPlus } from 'react-icons/fa';
 
 const mainClass = 
-'hover:bg-gray-700 hover:text-white cursor-pointer w-1/2 mx-auto flex flex-col rounded-lg p-2 bg-gray-300 my-2';
+'hover:bg-gray-700 hover:text-white cursor-pointer flex flex-col rounded-lg p-2 bg-gray-300 m-2';
 
 const Habit = ({habit}) => {
 
@@ -27,33 +28,36 @@ const Habit = ({habit}) => {
     )
 }
 
-const NewHabitButton = ({toggleForm}) => {
-
+const EmptyHabits = () => {
     return (
-        <div onClick={()=>toggleForm()} className={mainClass}>
-            <p>New habit</p>
+        <div className="text-xl">
+            <p> Looks like you're not tracking any habits.</p>
+            <p>Add a habit to get started.</p>
+            
         </div>
     )
-
 }
 
 const HabitList = () => {
-
-    const [showNewHabitForm,setShow] = useState(false);
-
-    const toggleForm = () => {
-        setShow(!showNewHabitForm);
-    }
-
+    const history = useHistory();
     const { habits } = useContext(GlobalContext);
     return (
-        <div className="flex flex-wrap md:w-1/2 w-2/3 mx-auto p-4 md:flex-col">
-            {habits.map(habit => 
-            <Habit 
-            key={habit.name} 
-            habit={habit}/>)}
-            <NewHabitButton toggleForm={toggleForm}/> 
-            {showNewHabitForm && <AddHabitForm toggleForm={toggleForm} />}
+        <div className="flex flex-col mx-auto p-4">
+            <div>
+                {habits && habits.length 
+                ? habits.map(habit => 
+                <Habit 
+                key={habit.name}  
+                habit={habit}/>) 
+                : <EmptyHabits />}   
+            </div>
+            <div className="m-auto">
+                <Button 
+                text = "Add a habit"
+                icon = {<FaCalendarPlus />}
+                onClick = {()=>history.push("/addhabit")}
+                />
+            </div>
         </div>
     )
 }
