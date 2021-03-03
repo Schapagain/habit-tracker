@@ -1,10 +1,10 @@
 import React from 'react'
 
-export const Login = () => {
+export const Signup = () => {
     return (
         <div className="m-auto">
             <p>Under construction. Check back later.</p>
         </div>
     )
 }
-export default Login;
+export default Signup;
