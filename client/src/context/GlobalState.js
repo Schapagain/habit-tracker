@@ -1,7 +1,7 @@
 import React, {createContext, useReducer} from 'react';
 import HabitBlock from '../utils/HabitBlock';
 import AppReducer from './AppReducer';
-import { ADD_HABIT } from './types';
+import { ADD_HABIT, LOGOUT } from './types';
 
 const italianHabit = new HabitBlock("Italian","10 minutes a day");
 const exerciseHabit = new HabitBlock("Exercise","half and hour a day");
@@ -9,6 +9,7 @@ const initialHabits = [italianHabit,exerciseHabit]
 
 const initialState = {
     habits : initialHabits,
+    isAuthenticated: true,
     user : {
         name: "Sandesh",
         id: "123"
@@ -27,12 +28,20 @@ export const GlobalProvider = ({ children }) => {
         });
     }
 
+    function logoutUser() {
+        dispatch({
+            type: LOGOUT,
+        })
+    };
+
     return (
         <GlobalContext.Provider 
         value={{
             habits: state.habits,
+            isAuthenticated: state.isAuthenticated,
             user: state.user,
             addHabit,
+            logoutUser,
         }}
         >
             {children}
