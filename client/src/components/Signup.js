@@ -92,10 +92,9 @@ const SignupForm = () => {
       <form className="text-center text-gray-700 my-auto w-full text-left rounded-lg ">
           <div className="flex p-2 flex-col">
               <div className="w-full m-2 px-2">
-              <label className="block mb-1 text-white" htmlFor="fullname">Your full name, please</label>
               <input 
               id="fullname"
-              placeholder="John Doe" 
+              placeholder="Your full name" 
               className={nameStyle}
               type="text" 
               onChange={(e) => setName(e.target.value)} 
@@ -103,10 +102,9 @@ const SignupForm = () => {
               />
               </div>
               <div className="w-full m-2 px-2">
-              <label className="block mb-1 text-white" htmlFor="username">Pick a username</label>
               <input 
               id="username"
-              placeholder="dJohn"
+              placeholder="Pick a username"
               className={userNameStyle}
               type="text"
               onChange={(e)=> setUsername(e.target.value)}
@@ -114,10 +112,9 @@ const SignupForm = () => {
               />
               </div>
               <div className="w-full m-2 px-2">
-              <label className="block text-white mb-1" htmlFor="email">We also need your email</label>
               <input 
               id="email"
-              placeholder="john@doe.org"
+              placeholder="Your email address"
               className={emailStyle}
               type="text" 
               onChange={(e)=>setEmail(e.target.value)}

@@ -23,10 +23,10 @@ export const Login = () => {
 
 const LoginText = () => {
     return (
-        <div className = "flex-col h-full p-4">
-                <h1 className="text-3xl mt-20">BlockByBlock</h1>
-                <div className="mb-20">
-                    <p className="text-xl my-20">Welcome back!</p>
+        <div className = "flex-col flex justify-between h-full p-4">
+                <h1 className="text-3xl mt-5">BlockByBlock</h1>
+                <div className="flex mb-5 flex-col h-1/2 justify-between">
+                    <p className="text-xl">Welcome back!</p>
                     <LoginQuote/>
                 </div>
         </div>
