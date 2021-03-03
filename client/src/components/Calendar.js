@@ -14,8 +14,8 @@ const Calendar = ({days,block}) => {
   },[setCalendar,block]);
 
   return (
-    <div className="w-50 flex flex-col bg-purple-400">
-      <h1 className="p-2 mb-3 bg-purple-300">{days[7].date.monthShort}</h1>
+    <div className="flex mx-2 flex-col">
+      <h1 className="p-2 mb-3">{days[7].date.monthShort}</h1>
       <div className="mb-1 flex">
           {nameOfDays.map(name => <Day isDayName={true} day={name} key={name}/>)}
       </div>
