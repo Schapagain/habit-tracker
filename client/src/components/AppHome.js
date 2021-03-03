@@ -6,26 +6,25 @@ import {Route, Switch} from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalState';
 import Landing from './Landing';
 import HabitHome from './HabitHome';
+import About from './About';
+import Features from './Features';
 
 const AppHome = (props) => {
-  const mainClass = "flex justify-between flex-col min-h-screen w-full bg-indigo-400"
+  const mainClass = "flex justify-between flex-col min-h-screen w-full"
   const { user } = useContext(GlobalContext);
   return (
     <div className={mainClass}>
-      <div>
-        <h1 className="text-4xl p-3 m-2">Hello {user.name || 'visitor'}.<br/> Here's the quote of the day.</h1>
-        <Quote />
-      </div>
       <Switch>
         <Route path="/" exact component={Landing} />
         <Route path="/habit" exact component={HabitHome} />
+        <Route path="/about" exact component={About} />
+        <Route path="/features" exact component={Features} />
         <Route path="/home" exact render={() => {
           return(
                 <HabitList />
           );
         }} /> 
       </Switch>
-      <h6>This is a crazy footer</h6>
       </div>
     // <GoogleLogin/>
   );
