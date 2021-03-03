@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.1.1",
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
@@ -15,18 +16,17 @@
     "luxon": "^1.26.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-icons": "^4.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-spring": "^8.0.27",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
-    "start": "npm run watch:css && react-scripts start",
-    "build": "npm run build:css && react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "build:css": "postcss src/assets/tailwind.css -o src/assets/main.css",
-    "watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -47,9 +47,10 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^10.2.4",
-    "postcss": "^8.2.6",
+    "@tailwindcss/postcss7-compat": "^2.0.3",
+    "autoprefixer": "^9.8.6",
+    "postcss": "^7.0.35",
     "postcss-cli": "^8.3.1",
-    "tailwindcss": "^2.0.3"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3"
   }
 }
