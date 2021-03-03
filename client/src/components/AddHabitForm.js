@@ -3,10 +3,14 @@ import { DateTime } from 'luxon';
 import classNames from 'classnames';
 import { GlobalContext } from '../context/GlobalState';
 import HabitBlock from '../utils/HabitBlock';
+import Panel from './Panel';
+import BackButton from './BackButton';
+import Button from './Button';
+import { useHistory } from 'react-router-dom';
 
-const AddHabitForm = ({toggleForm}) => {
+const Form = () => {
   const { addHabit } = useContext(GlobalContext);
-
+  const history = useHistory();
   const [name,setName] = useState("");
   const [description,setDescription] = useState("");
   const [startDate] = useState(DateTime.now());
@@ -27,18 +31,19 @@ const AddHabitForm = ({toggleForm}) => {
         resetStates();
         const newHabit = new HabitBlock(name,description,startDate);
         addHabit(newHabit);
-        toggleForm();
+        history.goBack();
     }
 
   }
 
-  const defaultInputClasses = 'w-full h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:outline-none focus:ring focus:border-blue-300';
+  const defaultInputClasses = 'w-full text-center h-10 px-3 text-base placeholder-opacity-50 placeholder-gray-600 border rounded-lg focus:outline-none focus:ring focus:border-blue-300';
   const nameStyle = classNames(defaultInputClasses,{
     'ring ring-red-400 ring-width-2':nameError
   })
-
   return (
-    <form onSubmit={(e)=>{e.preventDefault();handleSubmit()}} className="text-gray-700 w-full text-left rounded-lg bg-green-700">
+    <form 
+    onSubmit={(e)=>{e.preventDefault();handleSubmit()}} 
+    className="text-gray-700 rounded-lg">
         <div className="flex p-2 flex-col">
             <div className="w-full m-2 px-2">
             <label className="block mb-1 text-white" htmlFor="habitName">What do you wanna work on?</label>
@@ -73,15 +78,27 @@ const AddHabitForm = ({toggleForm}) => {
             value={startDate.toFormat('DD')}
             />
             </div>
-            <div className="text-center">
-            <button 
-            className=" items-center m-2 p-2 font-bold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:bg-indigo-700" 
-            >
-                Start tracking!
-            </button>    
-            </div>
+            <Button 
+              className={`items-center py-2 px-4
+              text-white bg-kabul rounded-xl 
+              hover:bg-kabul`} 
+              text="Start Tracking!"
+              onClick={handleSubmit}
+              />  
         </div>
     </form>
+  )
+}
+
+const AddHabitForm = () => {
+
+  return (
+    <div className="w-full h-screen m-auto justify-center flex">
+      <BackButton className="my-auto hover:-translate-x-1"/>
+      <Panel 
+      content = {<Form />}
+      /> 
+    </div>
   );
 }
 
