@@ -4,6 +4,7 @@ import { FaCalendarPlus } from 'react-icons/fa';
 import { RiRepeatOneLine } from 'react-icons/ri';
 import CalendarIcon from './CalendarIcon';
 import { BsArrowUpDown, BsArrowDown } from 'react-icons/bs';
+import Button from './Button';
 
 const IntroText = () => {
     return(
@@ -17,39 +18,37 @@ const IntroText = () => {
     )
 }
 
-const Button = ({text,icon}) => {
-    const history = useHistory();
-    const goToSignup = () => history.push("/signup");
-    return (
-        <a 
-        className = {`flex bg-gray-300 text-white bg-gray-600
-        hover:bg-calypso hover:animate-bounce rounded-xl p-3 mx-auto m-3
-        transition duration-500 transform ease-in-out hover:scale-110
-        box-shadow hover:shadow-2xl`}
-        href = "!#" 
-        onClick={(e)=>{e.preventDefault();goToSignup()}} 
-        >
-            {icon && <p className="mx-2 my-auto">{icon}</p>}<p>{text}</p>
-        </a>
-    )
-}
-
 const Landing = () => {
-    const arrowStyles = "m-auto text-2xl text-calypso";
+    const arrowStyles = "m-auto text-2xl text-calypso stroke-1";
+
+    const history = useHistory();
+    const onButtonClick = () => history.push("/signup");
+
     return (
         <div className="min-h-screen justify-between flex flex-col">
             <NavBar />
             <div className="flex h-2/3 my-auto justify-center">
                 <div className="flex my-auto m-3 w-1/2 flex-col">
                     <IntroText />
-                    <Button text="Get started" />    
+                    <Button 
+                    className="rounded-full"
+                    text="Get started" 
+                    onClick={onButtonClick}/>    
                 </div>
                 <div className="m-2 flex w-1/2 flex-col">
-                    <Button text="Add a habit" icon={<FaCalendarPlus/>} />
+                    <Button 
+                    text="Add a habit" 
+                    className="rounded-full"
+                    icon={<FaCalendarPlus/>} 
+                    onClick={onButtonClick}/>
                     <BsArrowDown className={arrowStyles} />
                     <CalendarIcon />
                     <BsArrowUpDown className={arrowStyles} />
-                    <Button text="Keep at it!" icon={<RiRepeatOneLine />} />
+                    <Button 
+                    className="rounded-full"
+                    text="Keep at it!" 
+                    icon={<RiRepeatOneLine />}
+                    onClick={onButtonClick} />
                 </div>
             </div>
         </div>
