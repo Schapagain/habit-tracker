@@ -4,14 +4,23 @@ import { useHistory } from 'react-router-dom';
 
 const Brand = () => {
     return (
-        <a href="!#" onClick={(e)=>{e.preventDefault();}}>BlockByBlock</a>
+        <a 
+        className = "text-calypso my-auto font-medium text-3xl"
+        href="!#" 
+        onClick={(e)=>{e.preventDefault();}}
+        >
+            BlockByBlock
+        </a>
     );
 }
 
 const NavLink = ({text,onClick}) => {
     return (
         <a 
-        className = "p-2"
+        className = {
+            `p-2 font-medium text-calypso text-lg mx-4
+            transition ease-in-out duration-700 hover:bg-calypso hover:text-white rounded-xl`
+        }
         href="!#" 
         onClick={(e)=>{e.preventDefault();onClick()}}
         >
