@@ -1,6 +1,6 @@
 const LoginQuote = () => {
     const quote = {
-        text: "The secret of your success is found in our daily routine.",
+        text: "The secret of your success is found in your daily routine.",
         author: "John C. Maxwell"
     }
     return (
