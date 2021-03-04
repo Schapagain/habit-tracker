@@ -22,8 +22,9 @@ const Landing = () => {
     const arrowStyles = "m-auto text-2xl text-calypso stroke-1";
 
     const history = useHistory();
-    const onButtonClick = () => history.push("/signup");
-
+    const goToSignup = () => history.push("/signup");
+    const goToHome = () => history.push("/home");
+    const goToAddHabit = () => history.push("/addhabit");
     return (
         <div className="min-h-screen justify-between flex flex-col">
             <NavBar />
@@ -33,14 +34,14 @@ const Landing = () => {
                     <Button 
                     className="rounded-full"
                     text="Get started" 
-                    onClick={onButtonClick}/>    
+                    onClick={goToSignup}/>    
                 </div>
                 <div className="m-2 flex w-1/2 flex-col">
                     <Button 
                     text="Add a habit" 
                     className="rounded-full"
                     icon={<FaCalendarPlus/>} 
-                    onClick={onButtonClick}/>
+                    onClick={goToAddHabit}/>
                     <BsArrowDown className={arrowStyles} />
                     <CalendarIcon />
                     <BsArrowUpDown className={arrowStyles} />
@@ -48,7 +49,7 @@ const Landing = () => {
                     className="rounded-full"
                     text="Keep at it!" 
                     icon={<RiRepeatOneLine />}
-                    onClick={onButtonClick} />
+                    onClick={goToHome} />
                 </div>
             </div>
         </div>
