@@ -21,9 +21,9 @@ const Calendar = ({days,block}) => {
       </div>
       {
           weeks.map(week =>
-          <div className="flex relative" key={week}>
-            {days.slice(week*7,week*7 + 7).map(day => 
-            <Day block={calendar} toggleDone={setCalendar} key={day.date.toString()} day={day}/>)}
+          <div className="flex" key={week}>
+            {days.slice(week*7,week*7 + 7).map((day,index) => 
+            <Day block={calendar} toggleDone={setCalendar} key={index} day={day}/>)}
           </div>)
       }
     </div>
