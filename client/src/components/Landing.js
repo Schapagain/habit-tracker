@@ -25,18 +25,19 @@ const Landing = () => {
     const goToSignup = () => history.push("/signup");
     const goToHome = () => history.push("/home");
     const goToAddHabit = () => history.push("/addhabit");
+
     return (
         <div className="min-h-screen justify-between flex flex-col">
             <NavBar />
-            <div className="flex h-2/3 my-auto justify-center">
-                <div className="flex my-auto m-3 w-1/2 flex-col">
+            <div className="md:flex-row flex flex-col h-2/3 my-auto justify-center">
+                <div className="flex my-auto m-3 w-full md:w-1/2 flex-col">
                     <IntroText />
                     <Button 
                     className="rounded-full"
                     text="Get started" 
                     onClick={goToSignup}/>    
                 </div>
-                <div className="m-2 flex w-1/2 flex-col">
+                <div className="m-2 hidden md:flex w-1/2 flex-col">
                     <Button 
                     text="Add a habit" 
                     className="rounded-full"
