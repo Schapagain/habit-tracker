@@ -105,6 +105,13 @@ const LoginForm = () => {
               text="Login"
               onClick={()=>handleSubmit()}
               />
+              <a 
+              className = "underline text-black"
+              href="!#" 
+              onClick={(e)=>{e.preventDefault();history.push("/signup")}}
+              >
+                  Don't have an account?
+                </a>
           </div>
       </form>
     );
