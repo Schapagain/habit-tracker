@@ -17,13 +17,13 @@ const AppHome = (props) => {
     <div className={mainClass}>
       <Switch>
         <Route path="/" exact component={Landing} />
-        <Route path="/habit" exact component={HabitHome} />
+        <ProtectedRoute path="/habit" exact component={HabitHome} />
         <Route path="/about" exact component={About} />
         <Route path="/features" exact component={Features} />
         <Route path="/login" exact component={Login} />
         <Route path="/signup" exact component={Signup} />
         <ProtectedRoute path="/home" exact component={Home} /> 
-        <Route path="/addhabit" exact component={AddHabitForm} />
+        <ProtectedRoute path="/addhabit" exact component={AddHabitForm} />
       </Switch>
       </div>
     // <GoogleLogin/>
