@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import classNames from 'classnames';
 import Button from './Button';
 import BackButton from './BackButton';
 import Panel from './Panel';
 import { useHistory } from 'react-router-dom';
+import { GlobalContext } from '../context/GlobalState';
 
 export const Signup = () => {
+    const { isAuthenticated } = useContext(GlobalContext);
+    const history = useHistory();
+    useEffect(() => {
+        if (isAuthenticated) history.replace("/home");
+    }, [isAuthenticated,history])
 
     return (
         <div className="text-white p-2 m-auto w-full h-screen flex justify-center">
