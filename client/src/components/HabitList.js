@@ -5,7 +5,7 @@ import Button from './Button';
 import { FaCalendarPlus } from 'react-icons/fa';
 
 const mainClass = 
-'hover:bg-gray-700 hover:text-white cursor-pointer flex flex-col rounded-lg p-2 bg-gray-300 m-2';
+'hover:bg-gray-700 w-1/3 md:w-1/4 p-2 m-2 hover:text-white cursor-pointer flex flex-col rounded-lg bg-gray-300';
 
 const Habit = ({habit}) => {
 
@@ -42,8 +42,8 @@ const HabitList = () => {
     const history = useHistory();
     const { habits } = useContext(GlobalContext);
     return (
-        <div className="flex flex-col mx-auto p-4">
-            <div>
+        <div className="flex w-full justify-center p-3 lg:w-1/2 flex-col mx-auto">
+            <div className="flex flex-wrap mx-auto justify-center">
                 {habits && habits.length 
                 ? habits.map(habit => 
                 <Habit 
