@@ -27,7 +27,7 @@ const Landing = () => {
     const goToAddHabit = () => history.push("/addhabit");
 
     return (
-        <div className="min-h-screen justify-between flex flex-col">
+        <div className="h-screen justify-between flex flex-col">
             <NavBar />
             <div className="md:flex-row flex flex-col h-2/3 my-auto justify-center">
                 <div className="flex my-auto m-3 w-full md:w-1/2 flex-col">
