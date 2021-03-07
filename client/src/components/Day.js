@@ -36,7 +36,7 @@ const Day = ({day,block,toggleDone,isDayName}) => {
     className={mainClass}
       >
       {dayNum || dayName}
-      {dayNum && done && active && <div className="w-10 h-10 m-auto absolute text-2xl">X</div>}
+      {dayNum && done && active && <div className="w-10 h-10 m-auto absolute text-3xl">X</div>}
     </div>
   );
 };
