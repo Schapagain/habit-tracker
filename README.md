@@ -1,6 +1,6 @@
 # Habit Tracker
 
-> Note : Is in development
+> Note : Deployed at: https://block-by-block.netlify.app/
 
 Track your habits by marking the calendar each day. This technique was put forward by Jerry Seinfeld, and has been called his 'productivity secret'.
 
