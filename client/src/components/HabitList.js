@@ -42,8 +42,8 @@ const HabitList = () => {
     const history = useHistory();
     const { habits } = useContext(GlobalContext);
     return (
-        <div className="flex w-full justify-center p-3 lg:w-1/2 flex-col mx-auto">
-            <div className="flex flex-wrap mx-auto justify-center">
+        <div className="flex w-full lg:w-1/2 justify-center p-3 flex-col mx-auto">
+            <div className="flex w-full flex-wrap mx-auto justify-center">
                 {habits && habits.length 
                 ? habits.map(habit => 
                 <Habit 
