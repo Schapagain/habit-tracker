@@ -28,7 +28,7 @@ const FeaturesText = () => {
                     Mark calendars for multiple habits simultaneously
                 </li>
                 <li>
-                    Add daily reflections to each habit
+                    Add daily reflections to each habit (in development)
                 </li>
             </ol> 
         </div>
