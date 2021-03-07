@@ -67,7 +67,7 @@ const NavLinks = () => {
 const NavBar = () => {
 
     return (
-        <div className = "w-full max-w-screen-xl fixed top-0 flex p-3 m-3 justify-between">
+        <div className = "w-full z-50 bg-spring-rain max-w-screen-xl fixed top-0 flex p-3 justify-between">
             <Brand />
             <NavLinks />
         </div>
