@@ -5,15 +5,14 @@ const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 /**
- * Use google client info in the environment 
+ * Use google client info in the environment
  * to creaet nodemailer transporter
  */
 async function getGoogleMailTransporter() {
-
-  const clientId = process.env.CLIENTID
-  const clientSecret = process.env.CLIENTSECRET
-  const refreshToken = process.env.REFRESHTOKEN
-  const user = process.env.EMAILUSER;
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
+  const user = process.env.GOOGLE_EMAIL_USER;
 
   const authClient = new OAuth2(
     clientId,
@@ -24,11 +23,11 @@ async function getGoogleMailTransporter() {
   authClient.setCredentials({
     refresh_token: refreshToken,
   });
-  let accessToken,transporter;
-  try{
+  let accessToken, transporter;
+  try {
     accessToken = await authClient.getAccessToken();
     transporter = nodemailer.createTransport({
-      service:"gmail",
+      service: "gmail",
       auth: {
         type: "OAuth2",
         user,
@@ -36,9 +35,9 @@ async function getGoogleMailTransporter() {
         clientSecret,
         refreshToken,
         accessToken,
-      }
+      },
     });
-  }catch(err) {
+  } catch (err) {
     throw await getError(err);
   }
   return transporter;
@@ -46,40 +45,39 @@ async function getGoogleMailTransporter() {
 
 /**
  * Send activationLink to the user using gmail server
- * @param {String} name 
- * @param {String} email 
- * @param {String} activationLink 
+ * @param {String} name
+ * @param {String} email
+ * @param {String} activationLink
  */
-async function sendActivationEmail(name,email,activationLink) {
+async function sendActivationEmail(name, email, otp) {
   try {
     let transporter = await getGoogleMailTransporter();
-    const mailBody = getEmailBody(process.env.EMAILUSER,email,name,activationLink);
+    const mailBody = getEmailBody(process.env.EMAILUSER, email, name, otp);
     transporter.sendMail(mailBody);
-  }catch(err) {
+  } catch (err) {
     throw await getError(err);
   }
 }
 
 /**
  * Make an email body (for activation email) given sender and receiver info
- * @param {String} senderEmail 
- * @param {String} receiverEmail 
- * @param {String} receiverName 
- * @param {String} activationLink 
+ * @param {String} senderEmail
+ * @param {String} receiverEmail
+ * @param {String} receiverName
+ * @param {String} activationLink
  */
-function getEmailBody(senderEmail,receiverEmail,receiverName,activationLink) {
+function getEmailBody(senderEmail, receiverEmail, receiverName, otp) {
   let mailBody = {
-    from: `"Cafe Rio" <${senderEmail}>`,
-    to: receiverEmail, 
-    subject: "Activate account",
-    text: `Hello ${receiverName}, welcome to Cafe Rio. Please click on the following link to activate your account: ${activationLink}`, // plain text body
-    html: 
-    `<h2>Hello ${receiverName}</h2>
-    <p>Welcome to Cafe Rio. 
-    Please click on the following link to activate your account: <p>
-    <a href = ${activationLink} >Activate account</a>
-    `
-  }
+    from: `"BlockByBlock" <${senderEmail}>`,
+    to: receiverEmail,
+    subject: "Congratulations on getting started with building new habits",
+    text: `Hello ${receiverName}, welcome to BlockByBlock. Please use this OTP to log in to your account: ${otp}`,
+    html: `<h2>Hello ${receiverName},</h2>
+    <p>Welcome to BlockByBlock. 
+    Please use this OTP to log into your account: <p>
+    <u>${otp}</u>
+    `,
+  };
   return mailBody;
 }
 
