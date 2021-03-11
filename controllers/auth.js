@@ -1,16 +1,11 @@
-
 const { getUsers } = require("./users");
 const { CUSTOMER, ADMIN } = require("./roles");
 const { makeItem } = require("./utils");
-const njwt = require('njwt');
-require('dotenv').config();
-const {
-  ValidationError,
-  getError,
-  NotAuthorizedError,
-  NotActiveError,
-} = require("./errors");
-const signingKey = process.env.SECRET_KEY;
+const njwt = require("njwt");
+
+require("dotenv").config();
+const { ValidationError, getError, NotAuthorizedError } = require("./errors");
+const signingKey = process.env.NJWT_SIGNING_KEY;
 
 /**
  * Generate a JWT for the given id
@@ -22,7 +17,7 @@ function getAuthToken(id, role) {
     scope: role,
   };
   const token = njwt.create(claims, signingKey);
-  token.setExpiration(new Date().getTime() + 24 * 60 * 60 * 1000);
+  token.setExpiration(new Date().getTime() + 30 * 24 * 60 * 60 * 1000);
   return token.compact();
 }
 
@@ -49,23 +44,23 @@ async function authenticateAdmin({ password }) {
  */
 async function authenticate(user) {
   try {
-    if (!user || !user.email) throw new ValidationError("email");
+    if (!user || !(user.username || user.email))
+      throw new ValidationError("username or email");
     if (!user.password) throw new ValidationError("password");
 
     const givenPassword = user.password;
     const users = await getUsers({
-      query: { email: user.email },
-      attributes: ["id", "password", "name", "email", "activationCode"],
+      query: user.email ? { email: user.email } : { username: user.username },
+      attributes: ["id", "password", "username", "name", "email"],
     });
     user = users.data[0];
     if (!user) throw new NotAuthorizedError();
     let isMatch = await user.validatePassword(givenPassword);
     if (!isMatch) throw new NotAuthorizedError();
-    if (!user.active) throw new NotActiveError("account");
 
     return {
       token: getAuthToken(user.id, CUSTOMER),
-      user: makeItem(user, ["id", "name", "email"]),
+      user: makeItem(user, ["id", "name", "email", "username"]),
     };
   } catch (err) {
     throw await getError(err);
