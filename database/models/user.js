@@ -44,6 +44,7 @@ const UserSchema = new Schema(
         validator: function (password) {
           return password && password.length > 4;
         },
+        message: "password should be at least five characters long",
       },
     },
     habits: [
