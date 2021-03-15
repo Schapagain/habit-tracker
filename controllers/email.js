@@ -60,6 +60,39 @@ async function sendActivationEmail(name, email, otp) {
 }
 
 /**
+ * Send OTP to users email
+ * @param {String} name
+ * @param {String} email
+ * @param {String} otp
+ */
+async function sendOTPEmail(name, email, otp) {
+  console.log(name, email, otp);
+  try {
+    let transporter = await getGoogleMailTransporter();
+    const mailBody = getEmailBodyOTP(process.env.EMAILUSER, email, name, otp);
+    transporter.sendMail(mailBody);
+  } catch (err) {
+    throw await getError(err);
+  }
+}
+
+function getEmailBodyOTP(senderEmail, receiverEmail, receiverName, otp) {
+  let mailBody = {
+    from: `"BlockByBlock" <${senderEmail}>`,
+    to: receiverEmail,
+    subject: "Your temporary password",
+    text: `Hello ${receiverName}, we've generated the following temporary password for you. You may use it to log in to your account: ${otp}`,
+    html: `<h2>Hello ${receiverName},</h2>
+    <p>We've generated a temporary password for you. You may use to it login to your account. We'd recommend changing your password once you log in.
+    </p>
+    <p>OTP: </p>
+    <u>${otp}</u>
+    `,
+  };
+  return mailBody;
+}
+
+/**
  * Make an email body (for activation email) given sender and receiver info
  * @param {String} senderEmail
  * @param {String} receiverEmail
@@ -81,4 +114,4 @@ function getEmailBody(senderEmail, receiverEmail, receiverName, otp) {
   return mailBody;
 }
 
-module.exports = { sendActivationEmail };
+module.exports = { sendActivationEmail, sendOTPEmail };
