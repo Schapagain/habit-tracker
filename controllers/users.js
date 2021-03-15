@@ -43,7 +43,7 @@ async function getUsers({
     if (!query || !query.id) {
       users = await queryDatabase({ model: User, query, attributes });
     } else {
-      users = await checkUserPresence({ query, attributes });
+      users = await _checkUserPresence({ query, attributes });
     }
   } catch (err) {
     throw await getError(err);
@@ -57,11 +57,11 @@ async function getUsers({
  * @param {object} query
  * @param {String[]} attributes
  */
-async function checkUserPresence({ query, attributes = ["id"] }) {
+async function _checkUserPresence({ query, attributes = ["id"] }) {
   try {
     const users = await queryDatabase({ model: User, query, attributes });
     if (!users || !users.length) throw new NotFoundError("user");
-    return users[0];
+    return users;
   } catch (err) {
     throw await getError(err);
   }
@@ -89,7 +89,7 @@ async function updateUser(
 ) {
   try {
     if (!user) throw new ValidationError("user");
-    let oldUser = await checkUserPresence({
+    let oldUser = await _checkUserPresence({
       query: { id: user.id },
       attributes,
     });
@@ -119,7 +119,7 @@ async function updateUser(
  */
 async function deleteUser(id) {
   try {
-    await checkUserPresence({ query: { id } });
+    await _checkUserPresence({ query: { id } });
     await User.deleteOne({ id });
     return { id };
   } catch (err) {
