@@ -2,6 +2,8 @@ const { getUsers } = require("./users");
 const { CUSTOMER, ADMIN } = require("./roles");
 const { makeItem } = require("./utils");
 const njwt = require("njwt");
+const { getOTP } = require("./password");
+const { sendOTPEmail } = require("./email");
 
 require("dotenv").config();
 const { ValidationError, getError, NotAuthorizedError } = require("./errors");
@@ -66,24 +68,52 @@ async function authenticate(user) {
     throw await getError(err);
   }
 }
+/**
+ * Generate and send OTP via users email
+ * @param {*} user
+ */
+async function sendOTP(user) {
+  try {
+    if (!user || !user.email) throw new ValidationError("email");
+
+    const users = await getUsers({
+      query: { email: user.email },
+      attributes: ["_id", "name", "email"],
+    });
+    user = users.data[0];
+    if (user) {
+      const otp = getOTP();
+      user.password = otp;
+      user.save();
+      sendOTPEmail(user.name, user.email, otp);
+    }
+  } catch (err) {
+    throw await getError(err);
+  }
+}
 
 /**
- * Activate the associated user account given valid activation code
- * @param {String} activationCode
+ * Reset users password to a new one
+ * @param {*} user
  */
-async function activateAccount(activationCode) {
+async function resetPassword(user) {
   try {
-    if (!activationCode) throw new Error();
+    if (!user || !user.id) throw new ValidationError("id");
+
+    const { oldPassword, newPassword } = user;
+    if (!oldPassword || !newPassword)
+      throw new ValidationError("oldPassword or newPassword");
+
     const users = await getUsers({
-      query: { activationCode },
-      attributes: ["_id", "activationCode"],
+      query: { id: user.id },
+      attributes: ["email", "_id"],
     });
-    if (!users.count) throw new Error();
-    const user = users.data[0];
-    user.activationCode = null;
-    user.save();
+    user = users.data[0];
+    await authenticate({ email: user.email, password: oldPassword });
+    user.password = newPassword;
+    await user.save();
   } catch (err) {
-    throw new ValidationError("activation code", "code has expired");
+    throw await getError(err);
   }
 }
 
@@ -97,7 +127,8 @@ function getValidAuthMethods() {
 module.exports = {
   authenticate,
   authenticateAdmin,
-  activateAccount,
   getAuthToken,
   getValidAuthMethods,
+  sendOTP,
+  resetPassword,
 };
