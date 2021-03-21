@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
+const { Habit } = require(".");
 const UserSchema = new Schema(
   {
     id: {
@@ -47,19 +48,6 @@ const UserSchema = new Schema(
         message: "password should be at least five characters long",
       },
     },
-    habits: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Habit",
-        validate: {
-          validator: async function (id) {
-            const count = await Habit.countDocuments({ id });
-            return count > 0;
-          },
-          message: "Invalid habit(s)",
-        },
-      },
-    ],
   },
   { timestamps: true }
 );
@@ -78,26 +66,21 @@ UserSchema.pre("save", async function (next) {
 });
 
 /**
+ * Remove dependencies on delete
+ */
+UserSchema.pre("remove", function (next) {
+  console.log("removing user with dependencies..");
+  Block.remove({ user: this._id }).exec();
+  Habit.remove({ user: this._id }).exec();
+  return next();
+});
+
+/**
  * Provide an API to compare passwords
  * @param {String} candidatePassword
  */
 UserSchema.methods.validatePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
-};
-
-const User = mongoose.model("User", UserSchema);
-
-/** Provide an API to add new habits
- * @param {String} habitId
- */
-UserSchema.methods.addHabit = async function (habitId) {
-  let user = this;
-  const response = await User.updateOne(
-    { id: user.id },
-    { $push: { habits: habitId } },
-    { runValidators: true }
-  );
-  console.log("adding habit:", response);
 };
 
 /**
@@ -114,4 +97,4 @@ async function generatePasswordHash(passwordPlain) {
   }
 }
 
-module.exports = User;
+module.exports = User = mongoose.model("User", UserSchema);
