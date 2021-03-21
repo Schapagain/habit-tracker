@@ -1,6 +1,6 @@
 const njwt = require("njwt");
 require("dotenv").config();
-const signingKey = process.env.SECRET_KEY;
+const signingKey = process.env.NJWT_SIGNING_KEY;
 const {
   getError,
   ValidationError,
@@ -15,13 +15,16 @@ const { ADMIN } = require("../controllers/roles");
  * is allowed to access the attempted route
  * @param {String[]} allowedRoles
  */
-function auth(allowedRoles) {
+function auth(allowedRoles = []) {
   return async function (req, res, next) {
     try {
       const token = parseAuthHeader(req.header("authorization"));
       const { id, role } = parseToken(token, signingKey);
-      verifyRoutePermission(allowedRoles, role);
-      if (role !== ADMIN) verifyRouteOwnership(req.params.id, id);
+
+      if (role !== ADMIN) {
+        verifyRoutePermission(allowedRoles, role);
+        verifyRouteOwnership(req.params.id, id);
+      }
 
       // Inject userId into req before proceeding
       req.auth = { id, role };
