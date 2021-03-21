@@ -1,31 +1,44 @@
 const mongoose = require("mongoose");
-const { Habit } = require(".");
+const Habit = require("./habit");
+const User = require("./user");
 
 const Schema = mongoose.Schema;
 const BlockSchema = new Schema({
   id: {
     type: Schema.Types.ObjectId,
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: "user id is required",
+    validate: {
+      validator: async function (id) {
+        const count = await User.countDocuments({ id });
+        return count > 0;
+      },
+      message: "invalid user id",
+    },
+  },
   habit: {
     type: Schema.Types.ObjectId,
     ref: "Habit",
     required: "habit id is required",
     validate: {
-        validator: async function (id) {
+      validator: async function (id) {
         const count = await Habit.countDocuments({ id });
         return count > 0;
-        },
-        message: "invalid habit id",
+      },
+      message: "invalid habit id",
     },
   },
   startDate: {
     type: Date,
-    required: "start date is required"
+    required: "start date is required",
   },
   doneDays: {
     type: [Date],
-    required: "an array of marked calendar days is required"
-  }
+    default: [],
+  },
 });
 
 /**

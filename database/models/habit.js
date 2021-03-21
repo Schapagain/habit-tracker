@@ -1,55 +1,50 @@
-const mongoose = require('mongoose');
-const { Block, User } = require('.');
+const mongoose = require("mongoose");
+const User = require("./user");
+const Block = require("./block");
 const Schema = mongoose.Schema;
-
 const HabitSchema = new Schema({
-    id: {
-        type: String,
-        unique: true,
+  id: {
+    type: String,
+    unique: true,
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: "user id is required",
+    validate: {
+      validator: async function (id) {
+        const count = await User.countDocuments({ id });
+        return count > 0;
+      },
+      message: "invalid user id",
     },
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-        required: "user id is required",
-        validate: {
-            validator: async function (id) {
-            const count = await User.countDocuments({ id });
-            return count > 0;
-            },
-            message: "invalid user id",
-        },
-    },
-    name: {
-        type: String,
-        required: 'Name of the meal is required',
-        trim: true,
-    },
-    desc: {
-        type: String,
-    },
-    blocks : [
-        {
-        type: Schema.Types.ObjectId,
-        ref: "Block",
-        required: "A habit needs at least one block",
-        validate: {
-            validator: async function (id) {
-                const count = await Block.countDocuments({ id });
-                return count > 0;
-                },
-                message: "Invalid block(s)",
-            },
-        },
-    ],
+  },
+  name: {
+    type: String,
+    required: "Name of the habit is required",
+    trim: true,
+    unique: true,
+  },
+  desc: {
+    type: String,
+  },
 });
 
 /**
  * save id before saving habit
  */
-HabitSchema.pre('save',async function(next) {
-    let habit = this;
-    habit.id = this._id;
-    return next();
-})
+HabitSchema.pre("save", async function (next) {
+  let habit = this;
+  habit.id = this._id;
+  return next();
+});
 
-module.exports = Habit = mongoose.model('Habit',HabitSchema);
+/**
+ * Remove dependencies on delete
+ */
+HabitSchema.pre("remove", function (next) {
+  Block.remove({ habit: this._id }).exec();
+  return next();
+});
+
+module.exports = Habit = mongoose.model("Habit", HabitSchema);

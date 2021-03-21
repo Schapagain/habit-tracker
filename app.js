@@ -13,6 +13,8 @@ app.use(morgan("tiny"));
 // Serve API routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/users", require("./routes/users"));
+app.use("/api/habits", require("./routes/habits"));
+app.use("/api/blocks", require("./routes/blocks"));
 
 // // Serve static content
 // app.use(express.static('public'));
