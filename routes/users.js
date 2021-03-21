@@ -1,13 +1,15 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const auth = require("../middlewares/auth");
 
 const {
-    getUsers,
-    signupUser,
-    updateUser,
-    deleteUser,
-  } = require("../controllers/users");
+  getUsers,
+  signupUser,
+  updateUser,
+  deleteUser,
+  addUser,
+} = require("../controllers/users");
+const { USER } = require("../controllers/roles");
 
 /**
  * Route to fetch all users
@@ -19,20 +21,20 @@ const {
  * @param {callback} middleware - Authenticate
  * @param   {callback} middleware - Handle HTTP response
  */
-router.get("/", async (req, res) => {
-    try {
+router.get("/", auth(), async (req, res) => {
+  try {
     //   const query = req.auth.role === ADMIN ? {} : { id: req.auth.id };
-      const result = await getUsers({ query : {} });
-      res.status(200).json(result);
-    } catch (err) {
-        console.log(err)
-      res.status(err.httpCode || 500).json({
-        error: {
-          msg: err.message,
-        },
-      });
-    }
-  });
+    const result = await getUsers({ query: {} });
+    res.status(200).json(result);
+  } catch (err) {
+    console.log(err);
+    res.status(err.httpCode || 500).json({
+      error: {
+        msg: err.message,
+      },
+    });
+  }
+});
 
 /**
  * Route to sigup a user
@@ -41,7 +43,6 @@ router.get("/", async (req, res) => {
  * @access  Public
  * @inner
  * @param   {string} path
- * @param   {callback} middleware - Form Parser
  * @param   {callback} middleware - Handle HTTP response
  */
 router.post("/signup", async (req, res) => {
@@ -59,23 +60,41 @@ router.post("/signup", async (req, res) => {
 });
 
 /**
+ * Route to add a new user
+ * @name    api/users
+ * @method  POST
+ * @access  Admin
+ * @inner
+ * @param   {string} path
+ * @param   {callback} middleware - Handle HTTP response
+ */
+router.post("/", auth(), async (req, res) => {
+  try {
+    const result = await addUser(req.body);
+    res.status(201).json(result);
+  } catch (err) {
+    return res.status(err.httpCode || 500).json({
+      error: {
+        field: err.field,
+        msg: err.message,
+      },
+    });
+  }
+});
+
+/**
  * Route to fetch user details
  * @name api/users/:id
  * @method GET
- * @access Public
+ * @access Private
  * @inner
  * @param {string} path
  * @param {callback} middleware - Authenticate
  * @param   {callback} middleware - Handle HTTP response
  */
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth([USER]), async (req, res) => {
   try {
-    const attributes = [
-      "id",
-      "name",
-      "email",
-      "username"
-    ];
+    const attributes = ["id", "name", "email", "username"];
     let result = await getUsers({
       query: { id: req.params.id },
       attributes,
@@ -98,7 +117,7 @@ router.get("/:id", async (req, res) => {
  * @param   {callback} middleware - Authenticate
  * @param   {callback} middleware - Handle HTTP response
  */
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", auth([USER]), async (req, res) => {
   try {
     let result = await updateUser({ ...req.body, id: req.params.id });
     res.status(200).json(result);
@@ -119,19 +138,15 @@ router.patch("/:id", async (req, res) => {
  * @param   {callback} middleware - Form Parser
  * @param   {callback} middleware - Handle HTTP response
  */
-router.delete(
-  "/:id",
-  // auth([ADMIN]),
-  async (req, res) => {
-    try {
-      const result = await deleteUser(req.params.id);
-      res.status(200).json(result);
-    } catch (err) {
-      return res.status(err.httpCode || 500).json({
-        error: { msg: err.message },
-      });
-    }
+router.delete("/:id", auth(), async (req, res) => {
+  try {
+    const result = await deleteUser(req.params.id);
+    res.status(200).json(result);
+  } catch (err) {
+    return res.status(err.httpCode || 500).json({
+      error: { msg: err.message },
+    });
   }
-);
+});
 
 module.exports = router;
