@@ -1,5 +1,5 @@
 const { getUsers } = require("./users");
-const { CUSTOMER, ADMIN } = require("./roles");
+const { USER, ADMIN } = require("./roles");
 const { makeItem } = require("./utils");
 const njwt = require("njwt");
 const { getOTP } = require("./password");
@@ -28,7 +28,7 @@ function getAuthToken(id, role) {
  * @param {*} Credentials.password
  */
 async function authenticateAdmin({ password }) {
-  const correctPassword = process.env.ADMINPASSWORD;
+  const correctPassword = process.env.ADMIN_PASSWORD;
   try {
     if (!password || correctPassword != password)
       throw new NotAuthorizedError();
@@ -61,7 +61,7 @@ async function authenticate(user) {
     if (!isMatch) throw new NotAuthorizedError();
 
     return {
-      token: getAuthToken(user.id, CUSTOMER),
+      token: getAuthToken(user.id, USER),
       user: makeItem(user, ["id", "name", "email", "username"]),
     };
   } catch (err) {
