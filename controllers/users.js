@@ -1,6 +1,4 @@
 const { queryDatabase } = require("../database");
-
-// Import the user model
 const { User } = require("../database/models");
 const { getError, ValidationError, NotFoundError } = require("./errors");
 const { sendActivationEmail } = require("./email");
@@ -9,7 +7,7 @@ const { getOTP } = require("./password");
 
 /**
  * Save user info to the database
- * and user files into the disk
+ * and send OTP via email
  * @param {*} user
  */
 async function signupUser(user) {
@@ -22,6 +20,28 @@ async function signupUser(user) {
     user = new User(newUser);
     user = await user.save();
     sendActivationEmail(user.name, user.email, newUser.password);
+    return { user: makeItem(user, ["id", "name", "email"]) };
+  } catch (err) {
+    if (user.idCard) deleteFiles(user.idCard);
+    throw await getError(err);
+  }
+}
+
+/**
+ * Save user info to the database
+ * and log otp to the console
+ * @param {*} user
+ */
+async function addUser(user) {
+  try {
+    if (!user) throw ValidationError("user");
+
+    const signupFields = ["name", "email", "username"];
+    let newUser = makeItem(user, signupFields);
+    newUser.password = getOTP();
+    user = new User(newUser);
+    user = await user.save();
+    console.log("added a new user:", newUser.username, newUser.password);
     return { user: makeItem(user, ["id", "name", "email"]) };
   } catch (err) {
     if (user.idCard) deleteFiles(user.idCard);
@@ -127,4 +147,4 @@ async function deleteUser(id) {
   }
 }
 
-module.exports = { getUsers, signupUser, updateUser, deleteUser };
+module.exports = { getUsers, signupUser, addUser, updateUser, deleteUser };
