@@ -57,8 +57,9 @@ class ServerError extends Error {
 }
 
 async function getError(err) {
+  console.log(err);
   if (err) {
-    let firstError;
+    let firstError = {};
     let errorName = err.name;
     if (err.errors) {
       firstError = err.errors[Object.keys(err.errors)[0]];
@@ -66,6 +67,7 @@ async function getError(err) {
     } else {
       firstError = err;
     }
+
     switch (errorName) {
       case "NotActiveError":
       case "ValidationError":
@@ -86,11 +88,9 @@ async function getError(err) {
       case "JwtParseError":
         return new NotAuthorizedError("Invalid token");
       default:
-        console.log(err);
         return new ServerError();
     }
   }
-  console.log(err);
   return new ServerError();
 }
 
