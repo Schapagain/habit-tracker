@@ -1,16 +1,16 @@
-import './App.css';
-import AppHome from './components/AppHome.js';
-import {BrowserRouter as Router} from 'react-router-dom';
-import { GlobalProvider } from './context/GlobalState';
+import "./App.css";
+import AppHome from "./components/AppHome.js";
+import { BrowserRouter as Router } from "react-router-dom";
+import { GlobalProvider } from "./context/GlobalState";
 
 function App() {
   return (
     <GlobalProvider>
       <Router>
-        <div className="min-w-min-lg min-h-screen mx-auto bg-spring-rain flex flex-col text-center">
-          <AppHome/>
-        </div>  
-      </Router>  
+        <div className="w-full mx-auto bg-blue-500 flex flex-col bg-spring-rain text-center">
+          <AppHome />
+        </div>
+      </Router>
     </GlobalProvider>
   );
 }
