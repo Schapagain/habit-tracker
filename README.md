@@ -5,6 +5,8 @@
 
 A simple application to help you track new habits by marking calendar days.
 
+> Since this is still in development, you can use any username that is more than 2 characters in length, and make sure the password is the same as the username to log in and test out protected features
+
 # API Docs
 
 ### Responses and Error Codes

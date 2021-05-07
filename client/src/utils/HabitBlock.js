@@ -1,4 +1,5 @@
 import { DateTime, Interval } from "luxon";
+import { v4 as uuid } from "uuid";
 
 function* dateGenerator(interval) {
   let cursor = interval.start.startOf("day");
@@ -19,9 +20,9 @@ class Day {
 class HabitBlock {
   static #NUM_DAYS_IN_BLOCK = 30;
 
-  constructor(name, description, startDate) {
-    this._name = name;
-    this._description = description;
+  constructor(habitId, startDate) {
+    this._id = uuid();
+    this._habitId = habitId;
     this._startDate =
       (startDate && DateTime.fromISO(startDate).startOf("day")) ||
       DateTime.now().minus({ days: 5 }).startOf("day");
@@ -34,12 +35,12 @@ class HabitBlock {
     this._doneDays = 0;
   }
 
-  get description() {
-    return this._description;
+  get id() {
+    return this._id;
   }
 
-  get name() {
-    return this._name;
+  get habitId() {
+    return this._habitId;
   }
 
   get startDate() {
@@ -55,7 +56,7 @@ class HabitBlock {
   }
 
   get donePercentage() {
-    return Math.round(this._doneDays / HabitBlock.#NUM_DAYS_IN_BLOCK);
+    return Math.round((this._doneDays * 100) / HabitBlock.#NUM_DAYS_IN_BLOCK);
   }
 
   get doneDays() {
@@ -79,7 +80,6 @@ class HabitBlock {
     let prevState = this._activeDays[arrayIndex].done;
     this._activeDays[arrayIndex].done = !prevState;
     prevState ? this._doneDays-- : this._doneDays++;
-    console.log(date);
     return this;
   }
 

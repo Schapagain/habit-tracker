@@ -10,7 +10,7 @@ const Brand = () => {
       href="!#"
       onClick={(e) => {
         e.preventDefault();
-        history.push("/");
+        history.push("/home");
       }}
     >
       BlockByBlock
@@ -18,15 +18,15 @@ const Brand = () => {
   );
 };
 
-const NavLink = ({ text, onClick }) => {
+const NavLink = ({ text, onClick, href }) => {
   return (
     <a
       className={`p-2 font-medium text-calypso text-lg mx-4
             transition ease-in-out duration-700 hover:bg-calypso hover:text-white rounded-xl`}
-      href="!#"
+      href={href || "#"}
       onClick={(e) => {
-        e.preventDefault();
-        onClick();
+        !href && e.preventDefault();
+        onClick && onClick();
       }}
     >
       {text}
@@ -58,6 +58,10 @@ const NavLinks = () => {
 
   return (
     <div className="hidden md:flex">
+      <NavLink
+        text="Github"
+        href="https://github.com/Schapagain/habit-tracker"
+      />
       <NavLink text="Features" onClick={goToFeatures} />
       <NavLink text="About" onClick={goToAbout} />
       {isAuthenticated ? (
