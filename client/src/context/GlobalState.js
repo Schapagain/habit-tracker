@@ -58,9 +58,9 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  const getHabitDetails = useCallback((id) => {
+  const getHabitDetails = (id) => {
     return state.habits?.find((habit) => habit.id == id);
-  });
+  };
 
   return (
     <GlobalContext.Provider
