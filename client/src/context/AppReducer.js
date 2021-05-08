@@ -5,6 +5,8 @@ import HabitBlock from "../utils/HabitBlock";
 const AppReducer = (state, action) => {
   switch (action.type) {
     case LOGIN:
+      localStorage.setItem("token", "randomToken");
+      localStorage.setItem("user", action.payload);
       return {
         ...state,
         isAuthenticated: true,
