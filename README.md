@@ -1,9 +1,6 @@
 # Habit Tracker
 
-> Client deployed at: https://block-by-block.netlify.app/ <br/>
-> Server deployed at: https://block-by-block.herokuapp.com/
-
-A simple application to help you track new habits by marking calendar days.
+A simple [application](https://block-by-block.netlify.app/) to help you track new habits by marking calendar days.
 
 > Since this is still in development, you can use any username that is more than 2 characters in length, and make sure the password is the same as the username to log in and test out protected features
 
